@@ -11,6 +11,9 @@
     <button class="btn btn-danger" @click="handleDelete(TodoObj.id)">
       删除
     </button>
+    <button class="btn btn-edit" >
+      编辑
+    </button>
   </li>
 </template>
 
@@ -18,17 +21,20 @@
 export default {
   name: "MyItem",
   //声明接收TodoObj对象
-  props: ["TodoObj", "chockIodo", "deleteIodo"],
+  props: ["TodoObj"],
   methods: {
     //勾选or取消勾选
     handleCheck(id) {
       //通知App组件将对应的todo对象的done值取反
-      this.chockIodo(id);
+      //事件总线
+      this.$bus.$emit('checkTodo',id)
     },
     //删除
     handleDelete(id) {
       if (confirm("确定删除吗？")) {
-        this.deleteIodo(id);
+        //通知App组件将对应的todo对象删除
+        //this.deleteIodo(id);
+        this.$bus.$emit('deleteTodo',id)
       }
     },
   },

@@ -4,8 +4,7 @@
       v-for="TodoObj in todos"
       :key="TodoObj.id"
       :TodoObj="TodoObj"
-      :chockIodo="chockIodo"
-      :deleteIodo="deleteIodo"
+      
     />
   </ul>
 </template>
@@ -18,7 +17,7 @@ export default {
   components: {
     MyItem,
   },
-  props: ["todos", "chockIodo", "deleteIodo"],
+  props: ["todos"],
 };
 </script>
 

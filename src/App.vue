@@ -3,16 +3,14 @@
   <div class="root">
     <div class="todo-container">
       <div class="todo-wrap">
-        <MyHeader :addTodo="addTodo" />
+        <MyHeader @addTodo="addTodo" />
         <MyList
           :todos="todos"
-          :chockIodo="chockIodo"
-          :deleteIodo="deleteIodo"
         />
         <MyFooter
           :todos="todos"
-          :checkAllTodo="checkAllTodo"
-          :clearAllTodo="clearAllTodo"
+          @checkAllTodo="checkAllTodo"
+          @clearAllTodo="clearAllTodo"
         />
       </div>
     </div>
@@ -42,13 +40,13 @@ export default {
       this.todos.unshift(todoObj);
     },
     //勾选or取消勾选一个todo
-    chockIodo(id) {
+    checkTodo(id) {
       this.todos.forEach((todo) => {
         if (todo.id === id) todo.done = !todo.done;
       });
     },
     //删除一个todo
-    deleteIodo(id) {
+    deleteTodo(id) {
       this.todos = this.todos.filter((todo) => todo.id !== id);
     },
     //全选or取消全选
@@ -68,6 +66,15 @@ export default {
       },
     },
   },
+  mounted(){
+    this.$bus.$on('checkTodo',this.checkTodo)
+    this.$bus.$on('deleteTodo',this.deleteTodo)
+  },
+  beforeDestroy(){
+    this.$bus.$off('checkTodo')
+    this.$bus.$off('deleteTodo')
+  }
+
 };
 </script>
 
@@ -96,10 +103,19 @@ body {
   background-color: #da4f49;
   border: 1px solid #bd362f;
 }
+.btn-edit {
+  color: #fff;
+  background-color: skyblue;
+  border: 1px solid rgb(113, 182, 209);
+}
 
 .btn-danger:hover {
   color: #fff;
   background-color: #bd362f;
+}
+.btn-edit:hover {
+  color: #fff;
+  background-color: rgb(90, 165, 194);
 }
 
 .btn:focus {
