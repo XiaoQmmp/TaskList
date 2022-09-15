@@ -6,12 +6,18 @@
         :checked="TodoObj.done"
         @change="handleCheck(TodoObj.id)"
       />
-      <span>{{ TodoObj.title }}</span>
+      <span v-show="!TodoObj.isEdit">{{ TodoObj.title }}</span>
+      <input  
+         type="text" 
+        v-show="TodoObj.isEdit"
+        :value="TodoObj.title"
+        @blur="handleBlur(TodoObj)"  
+        >
     </label>
     <button class="btn btn-danger" @click="handleDelete(TodoObj.id)">
       删除
     </button>
-    <button class="btn btn-edit" >
+    <button class="btn btn-edit" @click="handleEdit(TodoObj)">
       编辑
     </button>
   </li>
@@ -37,6 +43,13 @@ export default {
         this.$bus.$emit('deleteTodo',id)
       }
     },
+    //编辑
+    handleEdit(todo){
+      this.$set(todo,'isEdit',true)
+    },
+    handleBlur(todo){
+      todo.isEdit=false
+    }
   },
 };
 </script>
