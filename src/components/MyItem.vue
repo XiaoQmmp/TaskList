@@ -1,26 +1,30 @@
 <template>
-  <li>
-    <label>
-      <input
-        type="checkbox"
-        :checked="TodoObj.done"
-        @change="handleCheck(TodoObj.id)"
-      />
-      <span v-show="!TodoObj.isEdit">{{ TodoObj.title }}</span>
-      <input  
-         type="text" 
-        v-show="TodoObj.isEdit"
-        :value="TodoObj.title"
-        @blur="handleBlur(TodoObj,$event)"  
-        >
-    </label>
-    <button class="btn btn-danger" @click="handleDelete(TodoObj.id)">
-      删除
-    </button>
-    <button  v-show="!TodoObj.isEdit" class="btn btn-edit" @click="handleEdit(TodoObj)">
-      编辑
-    </button>
-  </li>
+  <transition name="Task" appear>
+    <li>
+      <label>
+        <input
+          type="checkbox"
+          :checked="TodoObj.done"
+          @change="handleCheck(TodoObj.id)"
+        />
+        <span v-show="!TodoObj.isEdit">{{ TodoObj.title }}</span>
+        <input  
+           type="text" 
+          v-show="TodoObj.isEdit"
+          :value="TodoObj.title"
+          @blur="handleBlur(TodoObj,$event)" 
+          ref="inputTitle"
+  
+          >
+      </label>
+      <button class="btn btn-danger" @click="handleDelete(TodoObj.id)">
+        删除
+      </button>
+      <button  v-show="!TodoObj.isEdit" class="btn btn-edit" @click="handleEdit(TodoObj)">
+        编辑
+      </button>
+    </li>
+  </transition>
 </template>
 
 <script>
@@ -50,6 +54,9 @@ export default {
       }else{
         this.$set(todo,'isEdit',true)
       }
+      this.$nextTick(function(){
+        this.$refs.inputTitle.focus()
+      })
     },
     //失去焦点回调（真正执行修改逻辑）
     handleBlur(todo,e){
@@ -103,5 +110,28 @@ li:hover {
 
 li:hover button {
   display: block;
+}
+.Task-enter-active{
+  animation: anim linear 0.5s;
+}
+
+.Task-leave-active{
+  animation: enim  linear 0.5s ;
+}
+@keyframes anim {
+  from {
+    transform: translateY(-100%);
+  }
+  to{
+    transform: translateY(0%);
+  }
+}
+@keyframes enim {
+  from {
+    transform: translateX(0%);
+  }
+  to{
+    transform: translateX(-100%);
+  }
 }
 </style>

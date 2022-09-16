@@ -28,6 +28,7 @@ export default {
   border: 1px solid #ddd;
   border-radius: 2px;
   padding: 0px;
+  overflow: hidden;
 }
 
 .todo-empty {
